@@ -97,7 +97,7 @@ local arrowsshooted = 1
 
 
 -- will add all of these random lines into a config table later (maybe)
-local walkspeed = 16
+local Walkspeed = 16
 local infjump
 local antidamage
 local autospawn
@@ -115,15 +115,14 @@ local silentaim
 local autoequip = false
 local nospread
 local jumppowerenabled = false
-local walkspeedenabled = false
+local Walkspeedenabled = false
 local silentaimhitchance = 100 -- in percents
 local instantcharge = false
 local boxesenabled = false
 
 getgenv().TracerColor = Color3.fromRGB(99, 13, 197)
 
--- the good ol anticheat bypass
--- combat warriors has the most retarded anticheat on earth
+
 for i,v in pairs(getgc(true)) do
     if typeof(v) == "table" and rawget(v, "kick") then
         v.kick =  function()
@@ -156,7 +155,7 @@ table.foreach(events_table, function(i,v)
 end)
 
 
--- the retards at combat warriors detect if you make changes to the names so this is the second best method
+
 local pog
 pog = hookmetamethod(game, "__index", function(self, key)
     if (key == "Name" or key == "name") and remotes[self] then
@@ -175,7 +174,7 @@ local function getRemote(name)
     end
 end
 
--- took this from devforums
+
 local function getClosest()
     local hrp = Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position
     local closest_distance = math.huge
@@ -196,7 +195,7 @@ local function getClosest()
     return closestnigger
 end
 
--- modified some closest to mouse function from the devforums idfk where
+
 local function getClosestToMouse()
     local player, nearestDistance = nil, math.huge
     for i,v in pairs(Players:GetPlayers()) do
@@ -215,10 +214,9 @@ local function getClosestToMouse()
     return player
 end
 
--- returns if arrow should hit
+
 local function calculateArrowHitChance(v)
-    -- i love the devforums
-    -- they have everything i want
+
     local chance = math.floor(Random.new().NextNumber(Random.new(),0,1) * 100) / 100
     return chance <= math.floor(v) / 100
 end
@@ -226,7 +224,6 @@ end
 FLYING = false
 iyflyspeed = 1
 vehicleflyspeed = 1
--- i love stealing features from infinite yield and adding them to my script :sunglasses:
 
 function sFLY(vfly)
     repeat wait() until Players.LocalPlayer and Players.LocalPlayer.Character and Players.LocalPlayer.Character.HumanoidRootPart and Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
@@ -350,7 +347,7 @@ end
 
 
 task.wait(0.5)
--- by len
+
 pcall(function()
     for i = 1,25 do
         getRemote("StartFastRespawn"):FireServer()
@@ -360,28 +357,28 @@ pcall(function()
 end)
 
 local ui = loadstring(game:HttpGet('https://raw.githubusercontent.com/StepBroFurious/Script/main/HydraHubUi.lua'))()
-local window = ui.new("combat warriors", Players.LocalPlayer.UserId, "user")
-local main = window:Category("main", "rbxassetid://7733965386")
-local player = window:Category("player", "rbxassetid://7743875962")
-local combat = window:Category("combat", "rbxassetid://7743878358")
-local misc = window:Category("misc", "rbxassetid://7734042071")
-local visuals = window:Category("visuals", "rbxassetid://7733774602")
+local window = ui.new("frkfx!", Players.LocalPlayer.UserId, "user")
+local main = window:Category("Rage", "rbxassetid://7733965386")
+local player = window:Category("Player", "rbxassetid://7743875962")
+local Combat = window:Category("Combat", "rbxassetid://7743878358")
+local misc = window:Category("Misc", "rbxassetid://7734042071")
+local ESP = window:Category("ESP", "rbxassetid://7733774602")
 
-local mainMain = main:Button("main", "rbxassetid://7743875962")
-local mainSection = mainMain:Section("the cool stuff", "Left")
-local playerMain = player:Button("player", "rbxassetid://7743875962")
-local playerSection = playerMain:Section("player stuff", "Left")
-local combatMain = combat:Button("combat", "rbxassetid://7743875962")
-local combatKillauraSection = combatMain:Section("kill aura", "Left")
-local combatSilentaimSection = combatMain:Section("silent aim", "Right")
-local miscMain = misc:Button("misc", "rbxassetid://7743875962")
-local miscSection = miscMain:Section("the stuff that dont fit anywhere", "Left")
-local visualsMain = visuals:Button("visuals", "rbxassetid://7743875962")
-local visualsSection = visualsMain:Section(":eye:", "Left")
+local mainMain = main:Button("Rage", "rbxassetid://7743875962")
+local mainSection = mainMain:Section("Toggles", "Left")
+local playerMain = player:Button("Player", "rbxassetid://7743875962")
+local playerSection = playerMain:Section("Player", "Left")
+local CombatMain = Combat:Button("Combat", "rbxassetid://7743875962")
+local CombatKillauraSection = CombatMain:Section("Kill Aura", "Left")
+local CombatSilentaimSection = CombatMain:Section("Silent Aim", "Right")
+local miscMain = misc:Button("Misc", "rbxassetid://7743875962")
+local miscSection = miscMain:Section("BROKEN", "Left")
+local ESPMain = ESP:Button("ESP", "rbxassetid://7743875962")
+local ESPSection = ESPMain:Section("ESP", "Left")
 
 mainSection:Button({
-    Title = "get all emotes",
-    ButtonName = "get",
+    Title = "Unlock Emotes",
+    ButtonName = "Unlock",
     },
     function(v)
         for i,v in pairs(getgc(true)) do
@@ -398,9 +395,81 @@ mainSection:Button({
     end
 )
 
+mainSection:Toggle({
+    Title = "Auto Parry",
+    Default = false
+    },
+    function(v)
+
+	local lp = game.Players.LocalPlayer
+
+local animationInfo = {}
+
+function getInfo(id)
+  local success, info = pcall(function()
+      return game:GetService("MarketplaceService"):GetProductInfo(id)
+  end)
+  if success then
+      return info
+  end
+  return {Name=''}
+end
+function block(player)
+  keypress(0x46)
+  wait()
+  keyrelease(0x46)
+end
+
+local AnimNames = {
+  'Slash',
+  'Swing',
+  'Sword'
+}
+
+function playerAdded(v)
+    local function charadded(char)
+      local humanoid = char:WaitForChild("Humanoid", 5)
+      if humanoid then
+          humanoid.AnimationPlayed:Connect(function(track)
+              local info = animationInfo[track.Animation.AnimationId]
+              if not info then
+                  info = getInfo(tonumber(track.Animation.AnimationId:match("%d+")))
+                  animationInfo[track.Animation.AnimationId] = info
+              end
+             
+              if (lp.Character and lp.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Head")) then
+                  local mag = (v.Character.Head.Position - lp.Character.Head.Position).Magnitude
+                  if mag < 15  then
+                     
+                      for _, animName in pairs(AnimNames) do
+                          if info.Name:match(animName) then
+                              pcall(block, v)
+                          end
+                      end
+                     
+                  end
+              end
+          end)
+      end
+  end
+ 
+  if v.Character then
+      charadded(v.Character)
+  end
+  v.CharacterAdded:Connect(charadded)
+end
+
+for i,v in pairs(game.Players:GetPlayers()) do
+   if v ~= lp then
+       playerAdded(v)
+   end
+end
+
+game.Players.PlayerAdded:Connect(playerAdded)
+end)
 
 mainSection:Toggle({
-    Title = "disable jump cooldown",
+    Title = "Spam Jump",
     Default = false
     },
     function(val)
@@ -420,7 +489,7 @@ mainSection:Toggle({
 )
 
 mainSection:Toggle({
-    Title = "inf stamina",
+    Title = "Unlimited Stamina",
     Default = false
     },
     function(val)
@@ -441,7 +510,7 @@ mainSection:Toggle({
 )
 
 mainSection:Toggle({
-    Title = "no fall damage",
+    Title = "No Fall Damage",
     Default = false
     },
     function(val)
@@ -450,7 +519,7 @@ mainSection:Toggle({
 )
 
 mainSection:Toggle({
-    Title = "stomp aura",
+    Title = "Stomp Aura",
     Default = false
     },
     function(val)
@@ -459,7 +528,7 @@ mainSection:Toggle({
 )
 
 mainSection:Toggle({
-    Title = "no dash cooldown",
+    Title = "No Dash Cooldown",
     Default = false
     },
     function(val)
@@ -477,7 +546,7 @@ mainSection:Toggle({
 )
 
 mainSection:Toggle({
-    Title = "anti fire + bear trap damage",
+    Title = "No Utility Damage",
     Default = false
     },
     function(val)
@@ -486,16 +555,16 @@ mainSection:Toggle({
 )
 
 mainSection:Toggle({
-    Title = "auto spawn",
+    Title = "Auto Spawn",
     Default = false
     },
     function(val)
-        autospawn = val
+        autoSpawn = val
     end
 )
 
 mainSection:Toggle({
-    Title = "no ragdoll",
+    Title = "No Ragdoll",
     Default = false
     },
     function(val)
@@ -522,20 +591,20 @@ playerSection:Toggle({
         walkspeedenabled = val
 
         if not val then
-            Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 16
+            Players.LocalPlayer.Character:WaitForChild("Humanoid").Walkspeed = 16
         end
     end
 )
 
 playerSection:Slider({
-    Title = "walkspeed",
+    Title = "Walkspeed",
     Description = "",
     Default = 16,
     Min = 16,
     Max = 75
     },
     function(v)
-        walkspeed = v
+        Walkspeed = v
     end
 )
 
@@ -553,7 +622,7 @@ playerSection:Toggle({
 )
 
 playerSection:Slider({
-    Title = "jumppower",
+    Title = "Jump Power",
     Description = "",
     Default = 50,
     Min = 50,
@@ -565,7 +634,7 @@ playerSection:Slider({
 )
 
 playerSection:Toggle({
-    Title = "inf jump",
+    Title = "Inf jump",
     Default = false
     },
     function(val)
@@ -574,7 +643,7 @@ playerSection:Toggle({
 )
 
 playerSection:Toggle({
-    Title = "noclip",
+    Title = "Noclip",
     Default = false
     },
     function(val)
@@ -583,7 +652,7 @@ playerSection:Toggle({
 )
 
 playerSection:Toggle({
-    Title = "killsay",
+    Title = "Killsay",
     Default = false
     },
     function(val)
@@ -592,7 +661,7 @@ playerSection:Toggle({
 )
 
 playerSection:Toggle({
-    Title = "hide name",
+    Title = "Hide Name",
     Default = false
     },
     function(val)
@@ -601,7 +670,7 @@ playerSection:Toggle({
 )
 
 playerSection:Toggle({
-    Title = "fly",
+    Title = "Fly",
     Default = false
     },
     function(val)
@@ -615,7 +684,7 @@ playerSection:Toggle({
 )
 
 playerSection:Keybind({
-    Title = "fly keybind",
+    Title = "Fly Keybind",
     Default = Enum.KeyCode.K
     },
     function(val)
@@ -630,7 +699,7 @@ playerSection:Keybind({
 )
 
 playerSection:Toggle({
-    Title = "auto equip weapon",
+    Title = "Auto Equip",
     Default = false
     },
     function(val)
@@ -639,7 +708,7 @@ playerSection:Toggle({
 )
 
 playerSection:Toggle({
-    Title = "jesus",
+    Title = "Jesus",
     Default = false
     },
     function(val)
@@ -655,8 +724,8 @@ playerSection:Toggle({
     end
 )
 
-combatKillauraSection:Toggle({
-    Title = "kill aura",
+CombatKillauraSection:Toggle({
+    Title = "Kill Aura",
     Default = false
     },
     function(val)
@@ -666,8 +735,8 @@ combatKillauraSection:Toggle({
 
 -- reach here
 
-combatKillauraSection:Toggle({
-    Title = "reach",
+CombatKillauraSection:Toggle({
+    Title = "Reach (broken)",
     Default = false
     },
     function(val)
@@ -725,8 +794,8 @@ combatKillauraSection:Toggle({
     end
 )
 
-combatKillauraSection:Toggle({
-    Title = "no parry cooldown",
+CombatKillauraSection:Toggle({
+    Title = "No Parry Cooldown",
     Default = false
     },
     function(val)
@@ -744,8 +813,8 @@ combatKillauraSection:Toggle({
     end
 )
 
-combatSilentaimSection:Toggle({
-    Title = "aimbot",
+CombatSilentaimSection:Toggle({
+    Title = "Aimbot",
     Default = false
     },
     function(val)
@@ -753,8 +822,8 @@ combatSilentaimSection:Toggle({
     end
 )
 
-combatSilentaimSection:Toggle({
-    Title = "silent aim",
+CombatSilentaimSection:Toggle({
+    Title = "Silent Aim",
     Default = false
     },
     function(val)
@@ -762,8 +831,8 @@ combatSilentaimSection:Toggle({
     end
 )
 
-combatSilentaimSection:Slider({
-    Title = "hit chance",
+CombatSilentaimSection:Slider({
+    Title = "Hit Chance",
     Description = "",
     Default = 100,
     Min = 0,
@@ -774,8 +843,8 @@ combatSilentaimSection:Slider({
     end
 )
 
-combatSilentaimSection:Toggle({
-    Title = "wallbang",
+CombatSilentaimSection:Toggle({
+    Title = "Wallbang",
     Default = false
     },
     function(val)
@@ -787,8 +856,8 @@ combatSilentaimSection:Toggle({
     end
 )
 
-combatSilentaimSection:Toggle({
-    Title = "no spread",
+CombatSilentaimSection:Toggle({
+    Title = "No Spread",
     Default = false
     },
     function(val)
@@ -796,8 +865,8 @@ combatSilentaimSection:Toggle({
     end
 )
 
-combatSilentaimSection:Toggle({
-    Title = "no recoil",
+CombatSilentaimSection:Toggle({
+    Title = "No Recoil",
     Default = false
     },
     function(val)
@@ -825,8 +894,8 @@ combatSilentaimSection:Toggle({
     end
 )
 
-combatSilentaimSection:Toggle({
-    Title = "no gravity",
+CombatSilentaimSection:Toggle({
+    Title = "No Gravity",
     Default = false
     },
     function(val)
@@ -842,8 +911,8 @@ combatSilentaimSection:Toggle({
     end
 )
 
-combatSilentaimSection:Toggle({
-    Title = "instant charge",
+CombatSilentaimSection:Toggle({
+    Title = "Instant Charge (broken)",
     Default = false
     },
     function(val)
@@ -851,8 +920,8 @@ combatSilentaimSection:Toggle({
     end
 )
 
-combatSilentaimSection:Toggle({
-    Title = "auto shoot",
+CombatSilentaimSection:Toggle({
+    Title = "Auto Shoot (broken)",
     Default = false
     },
     function(val)
@@ -869,7 +938,7 @@ combatSilentaimSection:Toggle({
 )
 
 miscSection:Button({
-    Title = "fling",
+    Title = "Fling",
     ButtonName = "yeet"
     },
     function()
@@ -970,7 +1039,7 @@ miscSection:Button({
 )
 
 miscSection:Textbox({
-    Title = "kill sound (id)",
+    Title = "Kill Sound (broken)",
     Default = ""
     },
     function(val)
@@ -980,7 +1049,7 @@ miscSection:Textbox({
 )
 
 miscSection:Textbox({
-    Title = "hit sound (id)",
+    Title = "Hit Sound (broken)",
     Default = ""
     },
     function(val)
@@ -989,8 +1058,8 @@ miscSection:Textbox({
 
 )
 
-visualsSection:ColorPicker({
-    Title = "visuals color",
+ESPSection:ColorPicker({
+    Title = "ESP Color",
     Default = Color3.new(255, 0, 0)
     },
     function(val)
@@ -999,8 +1068,8 @@ visualsSection:ColorPicker({
     end
 )
 
-visualsSection:Toggle({
-    Title = "tracers",
+ESPSection:Toggle({
+    Title = "Tracers",
     Default = false
     },
     function(val)
@@ -1008,7 +1077,7 @@ visualsSection:Toggle({
     end
 )
 
-visualsSection:Toggle({
+ESPSection:Toggle({
     Title = "text",
     Default = false
     },
@@ -1018,8 +1087,8 @@ visualsSection:Toggle({
 )
 
 
-visualsSection:Toggle({
-    Title = "boxes",
+ESPSection:Toggle({
+    Title = "Boxes",
     Default = false
     },
     function(val)
@@ -1303,11 +1372,11 @@ end)
 task.spawn(function()
     RunService.Stepped:Connect(function()
 
-        if walkspeedenabled then
+        if Walkspeedenabled then
             if not UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then
-                Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = walkspeed
+                Players.LocalPlayer.Character:WaitForChild("Humanoid").Walkspeed = Walkspeed
             else
-                Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = walkspeed + 10.56
+                Players.LocalPlayer.Character:WaitForChild("Humanoid").Walkspeed = Walkspeed + 10.56
             end
         end
                 
