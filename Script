@@ -469,6 +469,26 @@ game.Players.PlayerAdded:Connect(playerAdded)
 end)
 
 mainSection:Toggle({
+    Title = "Inf Parry",
+    Default = false
+    },
+    function(val)
+        for i,v in pairs(getgc(true)) do
+            if type(v) == "table" and rawget(v, "PARRY_COOLDOWN_IN_SECONDS") and rawget(v, "PARRY_COOLDOWN_IN_SECONDS_AFTER_SUCCESSFUL_PARRY") then
+                if val then
+                    v.PARRY_COOLDOWN_IN_SECONDS = 0
+                    v.PARRY_COOLDOWN_IN_SECONDS_AFTER_SUCCESSFUL_PARRY = 0
+                else
+                    v.PARRY_COOLDOWN_IN_SECONDS = 3
+                    v.PARRY_COOLDOWN_IN_SECONDS_AFTER_SUCCESSFUL_PARRY = 0.33
+                end
+            end
+        end
+    end
+)
+
+
+mainSection:Toggle({
     Title = "Spam Jump",
     Default = false
     },
@@ -604,7 +624,7 @@ playerSection:Slider({
     Max = 75
     },
     function(v)
-        Walkspeed = v
+        walkspeed = v
     end
 )
 
@@ -794,24 +814,6 @@ CombatKillauraSection:Toggle({
     end
 )
 
-CombatKillauraSection:Toggle({
-    Title = "No Parry Cooldown",
-    Default = false
-    },
-    function(val)
-        for i,v in pairs(getgc(true)) do
-            if type(v) == "table" and rawget(v, "PARRY_COOLDOWN_IN_SECONDS") and rawget(v, "PARRY_COOLDOWN_IN_SECONDS_AFTER_SUCCESSFUL_PARRY") then
-                if val then
-                    v.PARRY_COOLDOWN_IN_SECONDS = 0
-                    v.PARRY_COOLDOWN_IN_SECONDS_AFTER_SUCCESSFUL_PARRY = 0
-                else
-                    v.PARRY_COOLDOWN_IN_SECONDS = 3
-                    v.PARRY_COOLDOWN_IN_SECONDS_AFTER_SUCCESSFUL_PARRY = 0.33
-                end
-            end
-        end
-    end
-)
 
 CombatSilentaimSection:Toggle({
     Title = "Aimbot",
@@ -1278,8 +1280,7 @@ bee = workspace.EffectsJunk.ChildAdded:Connect(function(p)
     end
 end)
 
--- fire direction changer
--- ty len (once again lmao)
+
 for i,v in pairs(getgc(true)) do
     if typeof(v) == "table" and rawget(v,"shoot") then
         local Old = v.shoot
